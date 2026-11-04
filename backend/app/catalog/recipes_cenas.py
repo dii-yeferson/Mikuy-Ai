@@ -111,4 +111,10 @@ CENAS = [
       ["Cocina la quinua y mezcla con cebolla, tomate y queso.", "Rellena los pimientos y hornea 25 minutos."], "vegetariano horno andino"),
     R("cena-caigua-rellena", "Caigua rellena", "C", 45, "caigua 180, res-molida 80, cebolla 30, huevo 0.5, aceituna 4, pasas 4, aji-panca 4, sal 0.5",
       ["Blanquea las caiguas.", "Rellénalas con un picadillo de carne, cebolla, huevo, aceituna y pasas.", "Cocínalas en salsa de ají panca 15 minutos."], "criollo"),
+    R("cena-crema-lentejas", "Crema de lentejas con comino", "C", 35, "lenteja 50, zanahoria 40, cebolla 30, ajo 2, comino 0.3, pan-integral 1, aceite 4, sal 0.5",
+      ["Cocina las lentejas con zanahoria, cebolla y ajo 25 minutos.", "Licúa con comino y sal.", "Sirve con pan integral tostado."], "vegano sopa"),
+    R("cena-wrap-frejoles", "Wrap de frejoles y palta", "C", 10, "tortilla-trigo 1, frejol-negro 40, palta 40, tomate 40, lechuga 20, limon 5",
+      ["Calienta los frejoles cocidos.", "Rellena la tortilla con frejoles, palta, tomate y lechuga."], "vegano rapido"),
+    R("cena-quinua-palta", "Ensalada de quinua, palta y choclo", "C", 20, "quinua 45, palta 50, choclo 40, tomate 50, cebolla 20, limon 8, aceite-oliva 4, sal 0.5",
+      ["Cocina y enfría la quinua.", "Mezcla con palta, choclo, tomate y cebolla.", "Aliña con limón y aceite."], "vegano andino"),
 ]

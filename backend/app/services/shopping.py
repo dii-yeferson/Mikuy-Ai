@@ -7,13 +7,20 @@ import math
 from ..catalog import BY_ID, INGREDIENTS, SECTIONS
 from ..catalog.prices import cost, unit_price
 
-LOOSE = {"verduras", "frutas", "tuberculos", "carnes", "pescados"}
+LOOSE = {"verduras", "frutas", "tuberculos", "carnes", "pescados", "granos"}
+# En mercados y bodegas peruanas esto se vende suelto, al peso o por unidad.
+LOOSE_IDS = {
+    "huevo", "queso-fresco", "queso-andino", "ajo", "kion", "aji-amarillo", "aji-limo", "rocoto", "aceituna",
+    "mani", "pasas", "nueces", "pecanas", "linaza", "chia", "harina", "harina-maiz", "avena", "cancha", "maiz-morado",
+}
 PANTRY = {"sal", "pimienta", "comino", "oregano", "palillo", "laurel", "canela", "clavo", "vainilla", "aceite", "aceite-oliva", "vinagre", "sillao", "azucar"}
 
 
-def _round_loose(need: float, unit: str) -> float:
+def _round_loose(need: float, unit: str, section: str = "") -> float:
     if unit == "u":
         return math.ceil(need - 1e-9)
+    if section == "granos":  # granos y menestras se compran a granel por cuartos de kilo
+        return max(250, math.ceil(need / 250) * 250)
     step = 50 if need < 500 else 100
     return math.ceil(need / step) * step
 
@@ -48,8 +55,8 @@ def build(plan: dict, profile: dict, state: dict | None = None) -> dict:
     for ing_id, qty in need.items():
         ing = INGREDIENTS[ing_id]
         pantry = ing_id in PANTRY
-        if ing.section in LOOSE or ing.unit == "u" and ing.pack <= 1:
-            buy_qty = _round_loose(qty, ing.unit)
+        if ing.section in LOOSE or ing_id in LOOSE_IDS or (ing.unit == "u" and ing.pack <= 1):
+            buy_qty = _round_loose(qty, ing.unit, ing.section)
             packs = None
         else:
             packs = math.ceil(qty / ing.pack - 1e-9)

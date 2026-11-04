@@ -51,6 +51,10 @@ def get_profile(user=Depends(current_user), db=Depends(get_db)):
 @router.put("/profile")
 def put_profile(body: ProfileIn, user=Depends(current_user), db=Depends(get_db)):
     changes = body.model_dump(exclude_none=True)
+    if "people" in changes:
+        from ..services import premium
+
+        premium.check_people(db, user.id, changes["people"])
     if "city" in changes and changes["city"] not in CITIES:
         raise HTTPException(422, "Ciudad no disponible.")
     if "excluded" in changes:

@@ -9,6 +9,7 @@ from __future__ import annotations
 
 from ..catalog import BY_ID, FLAG_LABELS, INGREDIENTS, Recipe
 from ..catalog.ingredients import nutrient_amount
+from ..catalog.images import image_for
 from ..catalog.prices import cost as ingredient_cost
 
 NUTRIENTS = ("kcal", "protein", "fat", "carbs", "fiber", "sodium")
@@ -179,8 +180,8 @@ def recipe_payload(recipe: Recipe, city: str = "lima", portion: float = 1.0, pro
         "cost": round(recipe_cost(recipe, city, portion), 2),
         "allergens": sorted(FLAG_LABELS[f] for f in flags if f in FLAG_LABELS and f != "M"),
         "diet": diet_labels(recipe),
-        "warnings": warnings(recipe, profile or {}, portion),
-        "image": None,
+        "warnings": warnings(recipe, profile or {}),
+        "image": image_for(recipe.id),
     }
 
 
@@ -197,7 +198,7 @@ def recipe_summary(recipe: Recipe, city: str = "lima") -> dict:
         "protein": n["protein"],
         "cost": round(recipe_cost(recipe, city), 2),
         "diet": diet_labels(recipe),
-        "image": None,
+        "image": image_for(recipe.id),
     }
 
 

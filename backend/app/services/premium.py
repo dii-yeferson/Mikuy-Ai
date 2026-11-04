@@ -14,27 +14,28 @@ PLANS = {
     "premium": {
         "name": "Mikuy Premium",
         "prices": {"mensual": 14.90, "anual": 119.00},
-        "members": 1,
+        "members": 4,
         "features": [
             "Mikuy AI sin límites, por texto y por voz",
             "Menús ilimitados y cambios de platos al instante",
             "Precios aproximados para tu ciudad",
-            "Recetario completo con 300+ recetas peruanas",
+            "Menús para hogares de hasta 4 personas",
         ],
     },
     "familia": {
         "name": "Mikuy Familia",
         "prices": {"mensual": 24.90, "anual": 199.00},
-        "members": 6,
+        "members": 12,
         "features": [
             "Todo lo de Premium",
-            "Menú y compras para toda la familia (hasta 6)",
-            "Porciones por persona y alergias de cada uno",
-            "Lista de compras compartible por WhatsApp",
+            "Menú y compras para hogares de hasta 12 personas",
+            "Porciones y presupuesto calculados para toda la casa",
+            "Ideal para quien cocina para todos",
         ],
     },
 }
 FREE_LIMITS = {"ai_per_day": 5, "plans_per_week": 3}
+PEOPLE_LIMIT = {"gratis": 2, "premium": 4, "familia": 12}
 ALPHABET = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"
 
 
@@ -47,6 +48,17 @@ def subscription(db, user_id: str) -> Subscription:
     if sub.plan != "gratis" and sub.expires_at and sub.expires_at < utcnow():
         sub.plan, sub.period = "gratis", None
     return sub
+
+
+def people_limit(db, user_id: str) -> int:
+    return PEOPLE_LIMIT.get(subscription(db, user_id).plan, 2)
+
+
+def check_people(db, user_id: str, people: int) -> None:
+    limit = people_limit(db, user_id)
+    if people > limit:
+        need = "Premium" if people <= 4 else "Familia"
+        raise HTTPException(402, f"Tu plan permite hasta {limit} personas. Para {people}, activa Mikuy {need}.")
 
 
 def is_premium(db, user_id: str) -> bool:
@@ -67,6 +79,7 @@ def status(db, user_id: str) -> dict:
         "expires_at": sub.expires_at.isoformat() if sub.expires_at else None,
         "premium": sub.plan in PLANS,
         "simulated": sub.simulated,
+        "people_limit": PEOPLE_LIMIT.get(sub.plan, 2),
         "limits": None if sub.plan in PLANS else {
             "ai_per_day": FREE_LIMITS["ai_per_day"],
             "ai_used_today": usage.ai_messages if usage else 0,

@@ -1,0 +1,7 @@
+Fotos de recetas de Mikuy
+=========================
+1. Nombra cada foto con el id de la receta, en formato .webp. Ejemplo: lomo-saltado.webp
+   (los ids están en backend/app/catalog/recipes_*.py, primer valor de cada receta).
+2. Tamaño recomendado: 800 × 600 px, menos de 120 KB.
+3. Agrega el id en backend/app/catalog/images.py (WITH_PHOTO).
+Sin foto, la app muestra una portada ilustrada y animada.

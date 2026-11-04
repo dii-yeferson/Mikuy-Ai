@@ -73,3 +73,11 @@ def test_other_user_cannot_read_conversation(client):
     client.post("/api/auth/logout")
     client.post("/api/auth/register", json={"name": "Dos", "email": "dos@example.com", "password": "12345678"})
     assert client.get(f"/api/assistant/conversations/{cid}").status_code == 404
+
+
+def test_people_limit_by_plan(user):
+    assert user.put("/api/profile", json={"people": 3}).status_code == 402
+    co = user.post("/api/premium/checkout", json={"plan": "familia", "period": "anual"}).json()
+    user.post("/api/premium/redeem", json={"code": co["code"]})
+    assert user.put("/api/profile", json={"people": 6}).status_code == 200
+    assert user.get("/api/premium/status").json()["people_limit"] == 12

@@ -171,6 +171,9 @@ def apply(ctx: Ctx, action: dict) -> None:
         if isinstance(action.get("weekly_budget"), (int, float)) and 0 <= action["weekly_budget"] <= 5000:
             changes["weekly_budget"] = float(action["weekly_budget"])
         if isinstance(action.get("people"), int) and 1 <= action["people"] <= 12:
+            from . import premium
+
+            premium.check_people(ctx.db, ctx.user.id, action["people"])
             changes["people"] = action["people"]
         if action.get("city") in CITIES:
             changes["city"] = action["city"]
