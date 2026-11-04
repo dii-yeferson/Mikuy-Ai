@@ -1,0 +1,26 @@
+# Render Blueprint: Render → New → Blueprint → elige el repo Mikuy-Ai.
+services:
+  - type: web
+    name: mikuy
+    runtime: docker
+    plan: free
+    branch: reconstruccion-premium
+    healthCheckPath: /api/health
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: mikuy-db
+          property: connectionString
+      - key: COOKIE_SECURE
+        value: "true"
+      - key: COOKIE_SAMESITE
+        value: lax
+      - key: PAYMENTS_SIMULATED
+        value: "true"
+      - key: GROQ_API_KEY
+        sync: false
+databases:
+  - name: mikuy-db
+    plan: free
+    databaseName: mikuy
+    user: mikuy

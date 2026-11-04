@@ -1,6 +1,8 @@
 from contextlib import asynccontextmanager
+from pathlib import Path
 
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
+from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 
 from .config import settings
@@ -32,3 +34,18 @@ def health():
     from .services.assistant import ai_configured
 
     return {"ok": True, "recipes": len(RECIPES), "ai": ai_configured(), "payments": "simulados" if settings().payments_simulated else "reales"}
+
+
+# --- App web compilada (un solo servicio en producción) -------------------------------------
+_static = Path(settings().static_dir) if settings().static_dir else None
+if _static and (_static / "index.html").exists():
+
+    @app.get("/{path:path}", include_in_schema=False)
+    def spa(path: str):
+        if path.startswith("api/"):
+            raise HTTPException(404, "No encontrado.")
+        target = (_static / path).resolve()
+        if path and target.is_file() and target.is_relative_to(_static.resolve()):
+            headers = {"Cache-Control": "public, max-age=31536000, immutable"} if path.startswith("assets/") else {"Cache-Control": "no-cache"}
+            return FileResponse(target, headers=headers)
+        return FileResponse(_static / "index.html", headers={"Cache-Control": "no-cache"})

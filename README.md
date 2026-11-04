@@ -64,6 +64,18 @@ Abre http://127.0.0.1:5173.
 
 En el frontend, `VITE_API_URL` apunta a la API cuando están en dominios distintos.
 
+## Publicar en internet (Render)
+
+La app y la API van juntas en un solo servicio (`Dockerfile`), con una base Postgres. Todo está definido en `render.yaml`.
+
+1. Entra a https://dashboard.render.com e inicia sesión con GitHub.
+2. **New → Blueprint** → elige el repo **Mikuy-Ai** y la rama **reconstruccion-premium**.
+3. Render muestra el servicio `mikuy` y la base `mikuy-db`. Pulsa **Apply**. El primer despliegue tarda de 5 a 10 minutos.
+4. (Opcional) Para Mikuy AI con Groq: servicio `mikuy` → **Environment** → `GROQ_API_KEY`.
+5. Abre la dirección `https://mikuy-xxxx.onrender.com` que te da Render.
+
+En el plan gratuito, el servicio se duerme tras 15 minutos sin uso (la primera visita tarda alrededor de 1 minuto en despertar), y la base Postgres gratuita de Render vence a los 30 días. Para algo permanente, usa una base en Neon y pega su URL en `DATABASE_URL`.
+
 ## Planes
 
 | | Gratis | Premium | Familia |

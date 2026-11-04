@@ -20,6 +20,18 @@ class Settings(BaseSettings):
     # Pagos: mientras sea True, el pago se simula con un código generado por la app.
     payments_simulated: bool = True
 
+    # Carpeta con la app ya compilada (frontend/dist). Si existe, la API también sirve la app.
+    static_dir: str = ""
+
+    @property
+    def db_url(self) -> str:
+        """Render/Neon entregan postgres://...; SQLAlchemy con psycopg 3 necesita postgresql+psycopg://."""
+        url = self.database_url
+        for prefix in ("postgres://", "postgresql://"):
+            if url.startswith(prefix):
+                return "postgresql+psycopg://" + url[len(prefix):]
+        return url
+
 
 @lru_cache
 def settings() -> Settings:

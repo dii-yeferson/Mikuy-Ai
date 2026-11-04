@@ -22,7 +22,7 @@ def make_engine(url: str):
     return eng
 
 
-engine = make_engine(settings().database_url)
+engine = make_engine(settings().db_url)
 SessionLocal = sessionmaker(engine, expire_on_commit=False)
 
 
