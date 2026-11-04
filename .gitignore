@@ -1,0 +1,22 @@
+# Dependencias y builds
+node_modules/
+dist/
+.vite/
+test-results/
+playwright-report/
+# Python
+.venv/
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+# Datos locales y secretos
+*.db
+.env
+.env.*
+!.env.example
+*.log
+.local/
+.tools/
+.DS_Store
+Thumbs.db
