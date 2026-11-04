@@ -1,0 +1,1 @@
+Coloca aquí las fotos de los platos con el nombre exacto indicado en docs/FOTOS_RECETAS.md (ej.: seco-pollo.jpg).
