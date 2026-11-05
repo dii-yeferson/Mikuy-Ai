@@ -45,3 +45,10 @@ def test_diet_filters():
     assert nu.allowed(BY_ID["saltado-champinones"], vegan)
     assert not nu.allowed(BY_ID["cebiche-pescado"], {"conditions": ["embarazo"]})
     assert not nu.allowed(BY_ID["avena-platano-mani"], {"allergies": ["N"]})
+
+
+def test_every_recipe_has_photo():
+    from app.catalog.images import image_for
+
+    missing = [r.id for r in RECIPES if not image_for(r.id)]
+    assert not missing, missing

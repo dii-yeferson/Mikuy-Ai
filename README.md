@@ -5,7 +5,7 @@ App web instalable (PWA) para **planificar, comprar y cocinar** comida peruana s
 - **Planificar:** menú semanal (desayuno, almuerzo, cena y snack opcional) ajustado a tu meta, dieta, alergias, condiciones y presupuesto.
 - **Comprar:** lista consolidada con **precios aproximados por ciudad** (18 ciudades del Perú), lo que compras frente a lo que cocinas, y opción de compartir por WhatsApp.
 - **Mikuy AI:** cambia platos, abarata el menú, ajusta el presupuesto, personas o dieta, da recetas y calcula tus calorías. Funciona con Groq y, sin clave, con un intérprete local.
-- **313 recetas** peruanas con ingredientes, pasos, nutrientes, costo por porción y portada animada (las fotos reales se agregan después).
+- **313 recetas** peruanas con foto, ingredientes, pasos, nutrientes y costo por porción.
 - **Cuenta y Premium:** registro, sesión segura y planes Gratis, Premium y Familia. El pago está **simulado**: la app genera un código de activación.
 
 ## Estructura
@@ -93,12 +93,11 @@ Los nutrientes salen de las **Tablas Peruanas de Composición de Alimentos (INS-
 
 ## Fotos de recetas
 
-Ver `frontend/public/recetas/LEEME.txt`. Sin foto, cada receta muestra una portada ilustrada y animada.
+Las 313 fotos están en `frontend/public/recetas/` (ver `LEEME.txt`). Para cambiar una foto, reemplaza el archivo con el mismo nombre.
 
 ## Pendiente
 
 - Pasarela de pago real.
-- Fotos reales de las recetas.
 - Despliegue: API en Render, base de datos en Neon y app en Vercel.
 - Recuperar contraseña por correo.
 - Más adelante: comunidad, fotos de progreso, rachas, reportes y comer fuera.
