@@ -1,5 +1,5 @@
 // Mikuy: caché de la interfaz para abrir rápido y sin conexión. Los datos (/api) siempre van a la red.
-const VERSION = "mikuy-v2-1";
+const VERSION = "mikuy-v2-2";
 self.addEventListener("install", (e) => {
   e.waitUntil(caches.open(VERSION).then((c) => c.addAll(["/", "/manifest.webmanifest", "/icons/logo-mark.webp"])));
   self.skipWaiting();
